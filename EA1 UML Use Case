@@ -1,0 +1,70 @@
+@startuml
+
+title UebungsApp - Use Case Diagram
+skinparam rectangle {
+  BackgroundColor MintCream
+}
+
+left to right direction
+
+:Gast: #Orange
+:User:#Pink
+:Trainer: #Black
+
+rectangle Account {
+    (Login)
+    (Logout)
+    (Registrieren) AS RACC
+    (Aendern) AS AEACC
+    (Loeschen) AS LACC
+    (Verwalten) AS AV
+    (RACC) ..> (AV) #Green : <<include>>
+    (AV) ..> (Login) #Green : <<include>>
+    (AV) ..> (Logout) #Green : <<include>>
+    (AV) ..> (AEACC) #Green : <<include>>
+    (AV) ..> (LACC) #Green : <<include>>
+}
+rectangle Uebung {
+    (Verwalten) AS VUE
+    (Erstellen)
+    (Ansehen)
+    (Aendern) AS AEUE
+    (Loeschen) AS LUE
+    (Markeiren_Done) AS MD
+    (Markieren_Fav) AS MF
+    (Markieren_ToDo) AS MTD
+    (Zu_Uebungsreihe_Hinzufiegen/Entfernen) AS ZURH
+    (VUE) ..> (Erstellen) #Navy : <<include>>
+    (VUE) ..> (AEUE) #Navy : <<include>>
+    (VUE) ..> (LUE) #Navy : <<include>>
+    (VUE) ..> (MD) #Navy : <<include>>
+    (VUE) ..> (MF) #Navy : <<include>>
+    (VUE) ..> (MTD) #Navy : <<include>>
+    (VUE) ..> (Ansehen) #Navy : <<include>>
+}
+rectangle Uebungsreihe {
+    (Verwalten) AS VUR
+    (Erstellen) AS EUR
+    (Ansehen) AS AUR
+    (Aendern) AS AEUR
+    (Loeschen) AS LUR
+    (VUR) ..> (EUR) #Red : <<include>>
+    (VUR) ..> (AEUR) #Red : <<include>>
+    (VUR) ..> (LUR) #Red : <<include>>
+    (VUR) ..> (AUR) #Red : <<include>>
+}
+
+Gast --> (Ansehen) #Orange
+Gast --> (RACC) #Orange
+Gast --> (AUR) #Orange
+User --> (AV) #Pink
+User --> (VUE) #Pink
+User --> (AUR) #Pink
+Trainer --> (AV) #Black
+Trainer --> (VUR) #Black
+Trainer --> (VUE) #Black
+Trainer --> (ZURH) #Black
+Uebungsreihe ..> (ZURH) #Navy : <<extend>>: Wenn mehrere Uebungen eine Uebungsreihe bilden
+
+
+@enduml
