@@ -1,0 +1,129 @@
+@startuml
+
+title Relationships - Class Diagram UebungsApp
+
+
+class Uebung {
+  -id: int
+  +name: String
+  +dauer_in_Min: int
+  -autor: int
+  +schwierigkeitsgrad 1-10: int
+  +inDerUebungsreihe: int
+  
+  #verwaltenUebung(): void
+  #hinzufuegenZuUebungsreihe(): void
+  +ansehenUebungsInfos(): void
+}
+
+class Uebungsreihe {
+  -id: int
+  +name: String
+  +dauer_in_Min: int
+  -autor: int
+  +schwierigkeitsgrad 1-10: int
+  +anzahlUebungen: int
+  
+  #verwaltenUebungsreihe(): void
+  #hinzufuegenUebung(): void
+  #entfernenUebung(): void
+  +ansehenUebungsreihenInfos(): void
+}
+
+class Training {
+  -id: int
+  +name: String
+  +teilnehmeranzahl: int
+  +dauer_in_Min: int
+  +datum: Date
+  +schwierigkeitsgrad 1-10: int
+  +trainer: String
+  +adresse: String
+  
+  #verwaltenTraining(): void
+  #hinzufuegenTraining(): void
+  +anmeldenZuTraining(): void
+  #anschreibenTeilnehmer():void
+}
+
+class Trainer {
+  -id: int
+  -name: String
+  -vorname: String
+  -adresse: int
+  -email: String
+  +username : String
+  -passwort : String
+  +istOnline : boolean
+  
+  -verwaltenTrainerDaten(): void
+  +registrierenAlsTrainer(): void
+}
+
+class User {
+  -id: int
+  -name: String
+  -vorname: String
+  -adresse: int
+  -email: String
+  +username : String
+  -passwort : String
+  +istOnline : boolean
+  
+  -verwaltenUserDaten(): void
+  +registrierenAlsUser(): void
+}
+
+class Gast {
+  -id: int
+  +istOnline : boolean
+  
+  +registrierenAlsUser(): void
+}
+
+class Adresse {
+  -id: int
+  -stadt: String
+  -plz: int
+  -strasse: String
+  -hausnummer: int
+  
+  -hinzufuegenAdresse(): void
+  -verwaltenAdresse(): void
+}
+
+class Bewertung {
+  -id: int
+  +text: String
+  #autor: String
+  +datum: Date
+  +note 1-10: int
+  
+  -hinzufuegenBewertung(): void
+  -verwaltenBewertung(): void
+  +markierenAlsHilfsreich(): void
+}
+
+Uebung "many" - "many" Uebungsreihe: gehoert zu
+Uebung "many" - "many" Training: gehoert zu
+Uebungsreihe "many" - "many" Training: gehoert zu
+Trainer "1" -up- "many" Training: leitet
+Trainer "1" -up- "many" Uebung: erstellt
+Trainer "1" -up- "many" Uebungsreihe: erstellt
+User "1-20" -up- "many" Training: anmelden und besuchen
+Gast "many" -up- "many" Training: ansehen infos
+Gast "many" -up- "many" Uebung: ansehen infos
+Gast "many" -up- "many" Uebungsreihe: ansehen infos
+Gast "many" -up- "many" Bewertung: lesen und markieren als Hilfsreich
+User "1" -up- "many" Bewertung: schreibt
+User "many" -up- "many" Uebung: ansehen
+User "many" -up- "many" Uebungsreihe: ansehen
+Bewertung "many" -up- "many" Uebung
+Bewertung "many" -up- "many" Uebungsreihe
+Bewertung "many" -up- "many" Training
+Bewertung "many" -down- "many" Trainer
+Trainer "1" -up- "1" Adresse: hat
+User "1" -up- "1" Adresse: hat
+Training "many" -down- "1" Adresse: hat
+
+@enduml
